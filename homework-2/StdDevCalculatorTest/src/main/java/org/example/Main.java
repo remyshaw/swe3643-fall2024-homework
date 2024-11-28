@@ -17,24 +17,23 @@ public class Main {
     public static int COMPUTE_MEAN(int[] valuesList) throws emptyException {
         int sumAccumulator = 0;
         int i = 0;
-        if (valuesList[i] == 0) { // for every instance of this check, fix. Checks if current element (Element 0 since i = 0) equals 0, which is incorrect. we want to check if total elements are equal to 0.
+        if (valuesList.length == 0) {
             throw new emptyException("valuesList parameter cannot be null or empty");
         }
-        for (i = 0; i < valuesList[i]; i++) {
+        for (i = 0; i < valuesList.length; i++) {
             sumAccumulator = sumAccumulator + i;
         }
-        return sumAccumulator / valuesList[i]; /* <- divides by current element of valuesList,
-        not total number of elements in array, fix later. */
+        return sumAccumulator / valuesList.length;
     }
 
     //Function to compute the sum of squared differences from the mean
     public static int Compute_SQUARE_OF_DIFFERENCES(int[] valuesList, int mean) throws emptyException {
         int squareAccumulator = 0;
         int i = 0;
-        if (valuesList[i] == 0) { //!!!!!
+        if (valuesList.length == 0) { //!!!!!
             throw new emptyException("valuesList parameter cannot be null or empty");
         }
-        for (i =0; i < valuesList[i]; i++){ //fix for loop to compute results for each element in array
+        for (i =0; i < valuesList.length; i++){
             int difference = i - mean;
             int squareOfDifference = difference * difference;
             squareAccumulator = squareOfDifference + squareAccumulator;
@@ -69,9 +68,9 @@ public class Main {
         int mean = COMPUTE_MEAN(valuesList);
         int squareOfDifferences = Compute_SQUARE_OF_DIFFERENCES(valuesList,mean);
 
-        int variance = COMPUTE_VARIANCE(squareOfDifferences,valuesList[i],isPopulation); //not current element in valuesList, total number of elements in valuesList
+        int variance = COMPUTE_VARIANCE(squareOfDifferences,valuesList.length,isPopulation);
 
-        if (valuesList[i] == 0){ //!!!!!
+        if (valuesList.length == 0){
             throw new emptyException("valuesList parameter cannot be null or empty");
         }
         return (int) Math.sqrt(variance);
