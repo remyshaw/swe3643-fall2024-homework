@@ -2,40 +2,40 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
-        int[] sampleValuesList = new int[]{9, 6, 8, 5, 7};
+        double[] sampleValuesList = new double[]{9, 6, 8, 5, 7};
         double sampleStdDev = COMPUTE_SAMPLE_STANDARD_DEVIATION(sampleValuesList);
         System.out.println("Sample StdDev= " + sampleStdDev);
 
-        int[] populationValuesList = new int[]
+        double[] populationValuesList = new double[]
                 {9, 2, 5, 4, 12, 7, 8, 11, 9, 3, 7, 4, 12, 5, 4, 10, 9, 6, 9, 4};
-        int popStdDev = COMPUTE_POPULATION_STANDARD_DEVIATION(populationValuesList);
+        double popStdDev = COMPUTE_POPULATION_STANDARD_DEVIATION(populationValuesList);
         System.out.println("Population StdDev= " + popStdDev);
 
     }
 
     //Function to compute the mean (average) of a list of values
-    public static int COMPUTE_MEAN(int[] valuesList) throws emptyException {
-        int sumAccumulator = 0;
+    public static double COMPUTE_MEAN(double[] valuesList) throws emptyException {
+        double sumAccumulator = 0;
         int i = 0;
         if (valuesList.length == 0) {
             throw new emptyException("valuesList parameter cannot be null or empty");
         }
         for (i = 0; i < valuesList.length; i++) {
-            sumAccumulator = sumAccumulator + i;
+            sumAccumulator += valuesList[i];
         }
         return sumAccumulator / valuesList.length;
     }
 
     //Function to compute the sum of squared differences from the mean
-    public static int Compute_SQUARE_OF_DIFFERENCES(int[] valuesList, int mean) throws emptyException {
-        int squareAccumulator = 0;
+    public static double Compute_SQUARE_OF_DIFFERENCES(double[] valuesList, double mean) throws emptyException {
+        double squareAccumulator = 0;
         int i = 0;
         if (valuesList.length == 0) { //!!!!!
             throw new emptyException("valuesList parameter cannot be null or empty");
         }
         for (i =0; i < valuesList.length; i++){
-            int difference = i - mean;
-            int squareOfDifference = difference * difference;
+            double difference = valuesList[i] - mean;
+            double squareOfDifference = difference * difference;
             squareAccumulator = squareOfDifference + squareAccumulator;
         }
         return squareAccumulator;
@@ -48,7 +48,7 @@ public class Main {
      */
 
     //Adjust number of values by minus one if sample where sample is indicated by (not isPopulation)
-    public static int COMPUTE_VARIANCE(int squareOfDifferences, int numValues, boolean isPopulation) throws minimumException{
+    public static double COMPUTE_VARIANCE(double squareOfDifferences, double numValues, boolean isPopulation) throws minimumException{
         if (!isPopulation){
             numValues = numValues - 1;
         }
@@ -63,21 +63,22 @@ public class Main {
     }
 
     //Function to compute the population or sample standard deviation from a list of values
-    public static int COMPUTE_STANDARD_DEVIATION(int[] valuesList, boolean isPopulation) throws emptyException, minimumException {
-        int i = 0;
-        int mean = COMPUTE_MEAN(valuesList);
-        int squareOfDifferences = Compute_SQUARE_OF_DIFFERENCES(valuesList,mean);
-
-        int variance = COMPUTE_VARIANCE(squareOfDifferences,valuesList.length,isPopulation);
-
+    public static double COMPUTE_STANDARD_DEVIATION(double[] valuesList, boolean isPopulation) throws emptyException, minimumException {
         if (valuesList.length == 0){
             throw new emptyException("valuesList parameter cannot be null or empty");
         }
-        return (int) Math.sqrt(variance);
+
+        int i = 0;
+        double mean = COMPUTE_MEAN(valuesList);
+        double squareOfDifferences = Compute_SQUARE_OF_DIFFERENCES(valuesList,mean);
+
+        double variance = COMPUTE_VARIANCE(squareOfDifferences,valuesList.length,isPopulation);
+
+        return Math.sqrt(variance);
     }
 
     //Function to compute the sample standard deviation from a list of values
-    public static int COMPUTE_SAMPLE_STANDARD_DEVIATION(int[] valuesList) {
+    public static double COMPUTE_SAMPLE_STANDARD_DEVIATION(double[] valuesList) {
         try {
             return COMPUTE_STANDARD_DEVIATION(valuesList, false);
         } catch (emptyException | minimumException e) {
@@ -86,7 +87,7 @@ public class Main {
         }
     }
         //Function to compute the population standard deviation from a list of values
-        public static int COMPUTE_POPULATION_STANDARD_DEVIATION(int[] valuesList){
+        public static double COMPUTE_POPULATION_STANDARD_DEVIATION(double[] valuesList){
             try {
                 return COMPUTE_STANDARD_DEVIATION(valuesList, true);
             } catch (emptyException | minimumException e) {
